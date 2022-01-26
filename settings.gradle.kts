@@ -13,4 +13,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "Placeholder Messages"
-include ':app'
+include(":app")
