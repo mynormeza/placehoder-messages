@@ -5,6 +5,18 @@ plugins {
     id ("org.jetbrains.kotlin.android") version "1.6.10" apply false
 }
 
+buildscript {
+    repositories {
+        google()
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navigation}")
+
+        classpath("com.google.dagger:hilt-android-gradle-plugin:${Versions.hilt}")
+    }
+}
+
 tasks.register("clean", Delete::class){
     delete(rootProject.buildDir)
 }

@@ -1,6 +1,11 @@
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    kotlin("kapt")
+    id("dagger.hilt.android.plugin")
+    id("kotlin-parcelize")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -17,7 +22,11 @@ android {
     }
 
     buildTypes {
+        getByName("debug") {
+            buildConfigField("String", "apiUrl", "\"https://jsonplaceholder.typicode.com\"")
+        }
         getByName("release") {
+            buildConfigField("String", "apiUrl", "\"https://jsonplaceholder.typicode.com\"")
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -46,6 +55,19 @@ dependencies {
     implementation(Dependencies.constraintLayout)
     implementation(Dependencies.navigationFragment)
     implementation(Dependencies.navigationUi)
+
+    implementation(Dependencies.lifecycleViewModel)
+    implementation(Dependencies.hilt)
+    implementation(Dependencies.coroutinesCore)
+    implementation(Dependencies.coroutinesAndroid)
+    implementation(Dependencies.retrofit)
+    implementation(Dependencies.interceptor)
+    implementation(Dependencies.gsonConverter)
+    implementation(Dependencies.liveData)
+
+    kapt(Dependencies.hiltAndroidCompiler)
+    implementation(Dependencies.arrow)
+
     testImplementation(Dependencies.junit)
     androidTestImplementation(Dependencies.junitExt)
     androidTestImplementation(Dependencies.espressoCore)
