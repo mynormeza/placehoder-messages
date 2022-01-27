@@ -1,7 +1,9 @@
 package com.example.placeholdermessages.di
 
 import android.content.Context
+import androidx.room.Room
 import com.example.placeholdermessages.BuildConfig
+import com.example.placeholdermessages.data.local.PlaceholdersDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,6 +21,14 @@ import javax.inject.Singleton
 @Module
 class AppModule {
     private val baseUrl: String = BuildConfig.apiUrl
+
+    @Provides
+    @Singleton
+    fun provideAppDatabase(@ApplicationContext context: Context): PlaceholdersDatabase {
+        return Room.databaseBuilder(context, PlaceholdersDatabase::class.java, "db_placeholders")
+            .fallbackToDestructiveMigration()
+            .build()
+    }
 
     @Provides
     @Singleton

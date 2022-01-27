@@ -20,6 +20,4 @@ abstract class UseCase<out Type, in Params> where Type : Any? {
             onResult(deferred.await())
         }
     }
-
-    class None
 }

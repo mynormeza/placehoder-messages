@@ -15,6 +15,7 @@ object Versions {
     const val retrofit = "2.9.0"
     const val interceptor = "4.9.3"
     const val arrow = "1.0.1"
+    const val room = "2.4.1"
 
 
     const val junitVersion = "4.13.2"
@@ -44,4 +45,7 @@ object Dependencies {
     const val interceptor = "com.squareup.okhttp3:logging-interceptor:${Versions.interceptor}"
     const val arrow ="io.arrow-kt:arrow-core:${Versions.arrow}"
     const val liveData = "androidx.lifecycle:lifecycle-livedata:${Versions.androidLifecycle}"
+    const val roomRuntime = "androidx.room:room-runtime:${Versions.room}"
+    const val roomCompiler = "androidx.room:room-compiler:${Versions.room}"
+    const val roomKtx = "androidx.room:room-ktx:${Versions.room}"
 }

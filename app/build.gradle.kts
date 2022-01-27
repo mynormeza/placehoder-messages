@@ -64,6 +64,9 @@ dependencies {
     implementation(Dependencies.interceptor)
     implementation(Dependencies.gsonConverter)
     implementation(Dependencies.liveData)
+    implementation(Dependencies.roomRuntime)
+    kapt(Dependencies.roomCompiler)
+    implementation(Dependencies.roomKtx)
 
     kapt(Dependencies.hiltAndroidCompiler)
     implementation(Dependencies.arrow)
