@@ -9,5 +9,4 @@ class PostFragmentsAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) 
     override fun getItemCount(): Int = FilterPosts.values().size
 
     override fun createFragment(position: Int) = PostsFragment.newInstance(FilterPosts.values()[position])
-
 }

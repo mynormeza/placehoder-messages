@@ -13,5 +13,4 @@ abstract class DataModule {
 
     @Binds
     abstract fun bindPlayRepository(postsRepository: PostRepository): IPostRepository
-
 }

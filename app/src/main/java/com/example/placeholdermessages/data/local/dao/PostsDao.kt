@@ -13,7 +13,6 @@ interface PostsDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertAll(posts: List<PostEntity>): List<Long>
 
-
     @Query("SELECT * FROM posts WHERE posts.post_id = :id")
     fun get(id: Long): PostEntity
 

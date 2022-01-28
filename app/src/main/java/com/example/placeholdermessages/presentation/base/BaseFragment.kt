@@ -19,6 +19,4 @@ abstract class BaseFragment : Fragment() {
         // Here you could show spefici message froma  failure, in the future
         requireContext().myToast(getString(R.string.general_error))
     }
-
-
 }

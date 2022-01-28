@@ -1,7 +1,6 @@
 package com.example.placeholdermessages.domain.interactors
 
 import arrow.core.Either
-import arrow.core.None
 import com.example.placeholdermessages.core.Failure
 import com.example.placeholdermessages.domain.model.Post
 import com.example.placeholdermessages.domain.repositories.IPostRepository
@@ -10,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class GetPostsUseCase @Inject constructor(private val postRepository: IPostRepository) {
-    fun getFlow(filterPosts: FilterPosts): Either<Failure, Flow<List<Post>>>  {
+    fun getFlow(filterPosts: FilterPosts): Either<Failure, Flow<List<Post>>> {
         return postRepository.getPosts(filterPosts)
     }
 }

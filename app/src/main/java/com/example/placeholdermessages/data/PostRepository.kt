@@ -26,7 +26,6 @@ class PostRepository @Inject constructor(
         } catch (exception: Throwable) {
             Either.Left(Failure.CacheError)
         }
-
     }
 
     override fun loadPosts(loadOnDemand: Boolean): Either<Failure, None> {

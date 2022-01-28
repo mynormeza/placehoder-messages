@@ -76,5 +76,4 @@ class AppModule {
             .addInterceptor(logging)
             .build()
     }
-
 }

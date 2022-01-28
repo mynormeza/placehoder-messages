@@ -14,7 +14,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val loadPostsUseCase: LoadPostsUseCase,
     private val deletePost: DeletePostUsaCase,
-    ) : BaseViewModel() {
+) : BaseViewModel() {
     private val _loadSuccessful = MutableLiveData(false)
     val loadSuccessful: LiveData<Boolean> = _loadSuccessful
 

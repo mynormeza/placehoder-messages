@@ -25,5 +25,4 @@ class NetworkHandler
             else -> false
         }
     }
-
 }

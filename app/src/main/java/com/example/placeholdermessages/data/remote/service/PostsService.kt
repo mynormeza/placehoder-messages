@@ -12,6 +12,5 @@ class PostsService @Inject constructor(retrofit: Retrofit) : PostsApi {
 
     override fun getPosts(): Call<List<PostItem>> {
         return postsApi.getPosts()
-
     }
 }

@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import com.example.placeholdermessages.domain.model.Post
 
 @Entity(tableName = "posts")
-data class PostEntity (
+data class PostEntity(
     @ColumnInfo(name = "post_id") @PrimaryKey val id: Long,
     @ColumnInfo(name = "post_title") val title: String,
     @ColumnInfo(name = "post_body") val body: String,

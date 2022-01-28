@@ -36,13 +36,13 @@ class PostsFragment : BaseFragment() {
     private val binding get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = PostsFragmentBinding.inflate(inflater, container, false)
         postsAdapter = PostsAdapter(object : PostsAdapter.ClickListener {
             override fun onClickItem(post: Post) {
-
             }
         })
         return binding.root
@@ -82,7 +82,6 @@ class PostsFragment : BaseFragment() {
                     postsAdapter.submitList(it)
                     binding.rvPosts.visibility = View.VISIBLE
                     binding.tvEmptyMsg.visibility = View.GONE
-
                 }
             }
 
@@ -93,5 +92,8 @@ class PostsFragment : BaseFragment() {
         }
     }
 
-
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }
