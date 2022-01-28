@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.placeholdermessages.data.local.DatabaseManager
-import com.example.placeholdermessages.domain.interactors.DeletePostUsaCase
-import com.example.placeholdermessages.domain.interactors.LoadPostsUseCase
+import com.example.placeholdermessages.domain.interactors.post.DeletePostUsaCase
+import com.example.placeholdermessages.domain.interactors.post.LoadPostsUseCase
 import com.example.placeholdermessages.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

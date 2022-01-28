@@ -19,6 +19,7 @@ class HomeFragment : BaseFragment() {
     private var _binding: HomeFragmentBinding? = null
 
     private val binding get() = _binding!!
+    private lateinit var adapter: PostFragmentsAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,6 +28,16 @@ class HomeFragment : BaseFragment() {
     ): View {
         setHasOptionsMenu(true)
         _binding = HomeFragmentBinding.inflate(inflater, container, false)
+        adapter = PostFragmentsAdapter(this)
+        binding.vpPosts.adapter = adapter
+        TabLayoutMediator(binding.tlPostsTabs, binding.vpPosts) { tab, position ->
+            tab.text = when (FilterPosts.values()[position]) {
+                FilterPosts.All -> getString(R.string.all_posts)
+                FilterPosts.FAVORITE -> getString(R.string.favorite_posts)
+            }
+        }.attach()
+        viewModel.loadPosts()
+
         return binding.root
     }
 
@@ -37,7 +48,6 @@ class HomeFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = PostFragmentsAdapter(this)
         binding.vpPosts.isUserInputEnabled = false
 
         binding.fab.setOnClickListener { _ ->
@@ -45,19 +55,12 @@ class HomeFragment : BaseFragment() {
         }
 
         with(viewModel) {
-            loadPosts()
 
             loadSuccessful.observe(viewLifecycleOwner) {
                 if (it) {
                     binding.vpPosts.visibility = View.VISIBLE
                     binding.tlPostsTabs.visibility = View.VISIBLE
-                    binding.vpPosts.adapter = adapter
-                    TabLayoutMediator(binding.tlPostsTabs, binding.vpPosts) { tab, position ->
-                        tab.text = when (FilterPosts.values()[position]) {
-                            FilterPosts.All -> getString(R.string.all_posts)
-                            FilterPosts.FAVORITE -> getString(R.string.favorite_posts)
-                        }
-                    }.attach()
+
                     hideProgress()
                 }
             }

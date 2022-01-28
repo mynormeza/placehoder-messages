@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Placeholder Messages</string>
     <string name="action_reload">Reload</string>
+    <string name="action_favorite">Favorite</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
@@ -11,5 +12,6 @@
     <string name="all_posts">All</string>
     <string name="favorite_posts">Favorite</string>
     <string name="posts_title">Posts</string>
+    <string name="posts_description">Description</string>
     <string name="posts_empty_msg">There are no post, please reload.</string>
 </resources>

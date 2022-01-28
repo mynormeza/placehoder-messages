@@ -16,6 +16,15 @@ interface PostsDao {
     @Query("SELECT * FROM posts WHERE posts.post_id = :id")
     fun get(id: Long): PostEntity
 
+    @Query("UPDATE posts SET post_is_read = 1 WHERE posts.post_id = :id")
+    fun updateRead(id: Long)
+
+    @Transaction
+    fun readPost(id: Long): PostEntity {
+        updateRead(id)
+        return get(id)
+    }
+
     @Query("SELECT * FROM posts;")
     fun getAll(): List<PostEntity>
 

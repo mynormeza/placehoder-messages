@@ -5,6 +5,8 @@ import arrow.core.None
 import com.example.placeholdermessages.core.Failure
 import com.example.placeholdermessages.core.NetworkHandler
 import com.example.placeholdermessages.data.local.DatabaseManager
+import com.example.placeholdermessages.data.local.mapper.CacheMapper
+import com.example.placeholdermessages.data.local.model.PostEntity
 import com.example.placeholdermessages.data.remote.service.PostsService
 import com.example.placeholdermessages.domain.model.Post
 import com.example.placeholdermessages.domain.repositories.IPostRepository
@@ -18,6 +20,7 @@ class PostRepository @Inject constructor(
     private val networkHandler: NetworkHandler,
     private val postsService: PostsService,
     private val databaseManager: DatabaseManager,
+    private val cacheMapper: CacheMapper<Post, PostEntity>
 ) : IPostRepository {
     override fun getPosts(filter: FilterPosts): Either<Failure, Flow<List<Post>>> {
         return try {
@@ -61,6 +64,23 @@ class PostRepository @Inject constructor(
             } else {
                 databaseManager.deletePost(id)
             }
+            Either.Right(None)
+        } catch (exception: Throwable) {
+            Either.Left(Failure.CacheError)
+        }
+    }
+
+    override fun getSinglePost(id: Long): Either<Failure, Post> {
+        return try {
+            Either.Right(databaseManager.getSinglePost(id).toPost())
+        } catch (exception: Throwable) {
+            Either.Left(Failure.CacheError)
+        }
+    }
+
+    override fun toggleFavorite(post: Post): Either<Failure, None> {
+        return try {
+            databaseManager.toggleFavorite(cacheMapper.mapToCache(post))
             Either.Right(None)
         } catch (exception: Throwable) {
             Either.Left(Failure.CacheError)

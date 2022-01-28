@@ -15,10 +15,19 @@ class DatabaseManager @Inject constructor(private val appDatabase: PlaceholdersD
     }
 
     fun getAllPosts(): List<PostEntity> = appDatabase.postsDao().getAll()
-    fun getPostsFlow(filterPosts: FilterPosts): Flow<List<PostEntity>> = if (filterPosts == FilterPosts.All) {
-        appDatabase.postsDao().getPostsFlow()
-    } else {
-        appDatabase.postsDao().getFavoritePostsFlow()
+    fun getPostsFlow(filterPosts: FilterPosts): Flow<List<PostEntity>> =
+        if (filterPosts == FilterPosts.All) {
+            appDatabase.postsDao().getPostsFlow()
+        } else {
+            appDatabase.postsDao().getFavoritePostsFlow()
+        }
+
+    fun getSinglePost(id: Long): PostEntity {
+        return appDatabase.postsDao().get(id)
+    }
+
+    fun toggleFavorite(postEntity: PostEntity) {
+        appDatabase.postsDao().update(postEntity)
     }
 
     fun deletePost(id: Long) {

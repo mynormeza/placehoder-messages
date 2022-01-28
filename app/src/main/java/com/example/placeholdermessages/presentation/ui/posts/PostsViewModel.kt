@@ -3,8 +3,8 @@ package com.example.placeholdermessages.presentation.ui.posts
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.placeholdermessages.domain.interactors.DeletePostUsaCase
-import com.example.placeholdermessages.domain.interactors.GetPostsUseCase
+import com.example.placeholdermessages.domain.interactors.post.DeletePostUsaCase
+import com.example.placeholdermessages.domain.interactors.post.GetPostsUseCase
 import com.example.placeholdermessages.domain.model.Post
 import com.example.placeholdermessages.presentation.base.BaseViewModel
 import com.example.placeholdermessages.presentation.ui.home.adapter.FilterPosts

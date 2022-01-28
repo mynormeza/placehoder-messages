@@ -1,4 +1,4 @@
-package com.example.placeholdermessages.domain.interactors
+package com.example.placeholdermessages.domain.interactors.post
 
 import arrow.core.Either
 import com.example.placeholdermessages.core.Failure

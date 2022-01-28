@@ -11,7 +11,7 @@ data class PostEntity(
     @ColumnInfo(name = "post_title") val title: String,
     @ColumnInfo(name = "post_body") val body: String,
     @ColumnInfo(name = "post_is_read") val isRead: Boolean,
-    @ColumnInfo(name = "post_is_favorite") val isFavorite: Boolean,
+    @ColumnInfo(name = "post_is_favorite") var isFavorite: Boolean,
 ) {
     fun toPost(): Post = Post(
         id,

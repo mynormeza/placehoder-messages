@@ -5,5 +5,5 @@ data class Post(
     val title: String,
     val body: String,
     val isRead: Boolean,
-    val isFavorite: Boolean,
+    var isFavorite: Boolean,
 )
