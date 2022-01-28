@@ -1,4 +1,9 @@
 package com.example.placeholdermessages.domain.model
 
-class User {
-}
+data class User(
+    val userId: Long,
+    val username: String,
+    val phone: String,
+    val email: String,
+    val website: String,
+)

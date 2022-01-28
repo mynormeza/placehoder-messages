@@ -21,4 +21,55 @@
         android:layout_marginHorizontal="@dimen/post_title_margin"
         tools:text="Hellow" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/post_title_margin"
+        android:text="@string/posts_user"
+        android:textSize="@dimen/sub_title"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginHorizontal="@dimen/post_title_margin"
+        android:text="@string/username" />
+
+    <TextView
+        android:id="@+id/tv_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/post_title_margin"
+        android:text="@string/user_phone" />
+
+    <TextView
+        android:id="@+id/tv_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/post_title_margin"
+        android:text="@string/user_email" />
+
+    <TextView
+        android:id="@+id/tv_website"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/post_title_margin"
+        android:text="@string/user_website" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/post_title_margin"
+        android:text="@string/posts_comments"
+        android:textSize="@dimen/sub_title"
+        android:textStyle="bold" />
+
+    <ListView
+        android:id="@+id/rv_comments"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
 </LinearLayout>

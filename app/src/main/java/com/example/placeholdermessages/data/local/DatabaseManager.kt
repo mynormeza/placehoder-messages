@@ -1,6 +1,6 @@
 package com.example.placeholdermessages.data.local
 
-import com.example.placeholdermessages.data.local.model.PostEntity
+import com.example.placeholdermessages.data.local.model.*
 import com.example.placeholdermessages.presentation.ui.home.adapter.FilterPosts
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -21,13 +21,18 @@ class DatabaseManager @Inject constructor(private val appDatabase: PlaceholdersD
         } else {
             appDatabase.postsDao().getFavoritePostsFlow()
         }
-
-    fun getSinglePost(id: Long): PostEntity {
-        return appDatabase.postsDao().get(id)
+// TODO test
+    fun getSinglePost(id: Long): PostDetailsWithComments {
+        return appDatabase.postsDao().readPost(id)
     }
 
-    fun toggleFavorite(postEntity: PostEntity) {
-        appDatabase.postsDao().update(postEntity)
+    fun toggleFavorite(id: Long, isFavorite: Boolean) {
+        val data = if (isFavorite) {
+            1
+        } else {
+            0
+        }
+        appDatabase.postsDao().updateFavorite(id, data)
     }
 
     fun deletePost(id: Long) {
@@ -37,4 +42,7 @@ class DatabaseManager @Inject constructor(private val appDatabase: PlaceholdersD
     fun dropPosts() {
         appDatabase.postsDao().drop()
     }
+
+    fun saveUsers(users: List<UserEntity>) = appDatabase.usersDao().insertAll(users)
+    fun saveComments(comments: List<CommentEntity>) = appDatabase.commentsDao().insertAll(comments)
 }

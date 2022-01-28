@@ -7,6 +7,7 @@ data class PostItem(
     val id: Long,
     val title: String,
     val body: String,
+    val userId: Long,
 ) {
     fun toPost(): Post = Post(
         id,
@@ -14,6 +15,7 @@ data class PostItem(
         body,
         isRead = true,
         isFavorite = false,
+        userId,
     )
 
     fun toEntity(isRead: Boolean = false): PostEntity = PostEntity(
@@ -22,5 +24,6 @@ data class PostItem(
         body,
         isRead,
         isFavorite = false,
+        userId,
     )
 }

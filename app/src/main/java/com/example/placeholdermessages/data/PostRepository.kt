@@ -6,8 +6,11 @@ import com.example.placeholdermessages.core.Failure
 import com.example.placeholdermessages.core.NetworkHandler
 import com.example.placeholdermessages.data.local.DatabaseManager
 import com.example.placeholdermessages.data.local.mapper.CacheMapper
+import com.example.placeholdermessages.data.local.model.PostDetailsWithComments
 import com.example.placeholdermessages.data.local.model.PostEntity
+import com.example.placeholdermessages.data.remote.service.CommentsService
 import com.example.placeholdermessages.data.remote.service.PostsService
+import com.example.placeholdermessages.data.remote.service.UserService
 import com.example.placeholdermessages.domain.model.Post
 import com.example.placeholdermessages.domain.repositories.IPostRepository
 import com.example.placeholdermessages.presentation.ui.home.adapter.FilterPosts
@@ -19,6 +22,8 @@ import javax.inject.Inject
 class PostRepository @Inject constructor(
     private val networkHandler: NetworkHandler,
     private val postsService: PostsService,
+    private val userService: UserService,
+    private val commentsService: CommentsService,
     private val databaseManager: DatabaseManager,
     private val cacheMapper: CacheMapper<Post, PostEntity>
 ) : IPostRepository {
@@ -35,21 +40,43 @@ class PostRepository @Inject constructor(
         val cachedPosts = databaseManager.getAllPosts()
         if (cachedPosts.isEmpty() || loadOnDemand) {
             return when (networkHandler.isNetworkAvailable()) {
-                true -> request(
-                    postsService.getPosts(), {
-                        databaseManager.savePosts(
-                            it.mapIndexed { index, postItem ->
-                                if (index <= 19) {
-                                    postItem.toEntity()
-                                } else {
-                                    postItem.toEntity(true)
-                                }
+                true -> {
+                    val usersResult = request(
+                        userService.getUsers(), {
+                            databaseManager.saveUsers(it.map { userItem -> userItem.toUserEntity() })
+                            None
+                        },
+                        emptyList()
+                    )
+
+                    usersResult.map {
+                        request(
+                            postsService.getPosts(), {
+                                databaseManager.savePosts(
+                                    it.mapIndexed { index, postItem ->
+                                        if (index <= 19) {
+                                            postItem.toEntity()
+                                        } else {
+                                            postItem.toEntity(true)
+                                        }
+                                    },
+                                )
+                                None
                             },
-                        )
-                        None
-                    },
-                    emptyList()
-                )
+                            emptyList()
+                        ).map {
+                            request(
+                                commentsService.getComments(), {
+                                    databaseManager.saveComments(it.map { c -> c.toEntity() })
+                                    None
+                                },
+                                emptyList()
+                            )
+                        }
+                    }
+
+                    return usersResult
+                }
                 else -> Either.Left(Failure.NetworkConnection)
             }
         } else {
@@ -70,17 +97,18 @@ class PostRepository @Inject constructor(
         }
     }
 
-    override fun getSinglePost(id: Long): Either<Failure, Post> {
+    // TODO test
+    override fun getSinglePost(id: Long): Either<Failure, PostDetailsWithComments> {
         return try {
-            Either.Right(databaseManager.getSinglePost(id).toPost())
+            Either.Right(databaseManager.getSinglePost(id))
         } catch (exception: Throwable) {
             Either.Left(Failure.CacheError)
         }
     }
 
-    override fun toggleFavorite(post: Post): Either<Failure, None> {
+    override fun toggleFavorite(params: Pair<Long, Boolean>): Either<Failure, None> {
         return try {
-            databaseManager.toggleFavorite(cacheMapper.mapToCache(post))
+            databaseManager.toggleFavorite(params.first, params.second)
             Either.Right(None)
         } catch (exception: Throwable) {
             Either.Left(Failure.CacheError)

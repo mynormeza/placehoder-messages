@@ -12,7 +12,8 @@
         tools:layout="@layout/home_fragment" >
         <action
             android:id="@+id/action_homeFragment_to_postDetailsFragment2"
-            app:destination="@id/postDetailsFragment" />
+            app:destination="@id/postDetailsFragment"
+            app:enterAnim="@android:anim/slide_in_left" />
     </fragment>
 
     <fragment

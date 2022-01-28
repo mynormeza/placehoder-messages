@@ -8,7 +8,7 @@ class CachePostMapper @Inject constructor() : CacheMapper<Post, PostEntity> {
     override fun mapToCache(type: Post): PostEntity {
         return PostEntity(
             type.id, type.title, type.body, type.isRead,
-            type.isFavorite,
+            type.isFavorite, type.userId,
         )
     }
 }
