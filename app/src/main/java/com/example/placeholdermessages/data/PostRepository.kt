@@ -8,6 +8,9 @@ import com.example.placeholdermessages.data.local.DatabaseManager
 import com.example.placeholdermessages.data.remote.service.PostsService
 import com.example.placeholdermessages.domain.model.Post
 import com.example.placeholdermessages.domain.repositories.IPostRepository
+import com.example.placeholdermessages.presentation.ui.home.adapter.FilterPosts
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import retrofit2.Call
 import javax.inject.Inject
 
@@ -16,24 +19,30 @@ class PostRepository @Inject constructor(
     private val postsService: PostsService,
     private val databaseManager: DatabaseManager,
 ) : IPostRepository {
-    override fun getPosts(): Either<Failure, List<Post>> {
-        try {
-            val cachedPosts = databaseManager.getAllPosts()
-            return  Either.Right(cachedPosts.map { it.toPost() })
+    override fun getPosts(filter: FilterPosts): Either<Failure, Flow<List<Post>>> {
+        return try {
+            val cachedPosts = databaseManager.getPostsFlow(filter)
+            Either.Right(cachedPosts.map { it.map { p -> p.toPost() } })
         } catch (exception: Throwable) {
-            return Either.Left(Failure.CacheError)
+            Either.Left(Failure.CacheError)
         }
 
     }
 
-    override fun loadPosts(): Either<Failure, None> {
+    override fun loadPosts(loadOnDemand: Boolean): Either<Failure, None> {
         val cachedPosts = databaseManager.getAllPosts()
-        if (cachedPosts.isEmpty()) {
+        if (cachedPosts.isEmpty() || loadOnDemand) {
             return when (networkHandler.isNetworkAvailable()) {
                 true -> request(
                     postsService.getPosts(), {
                         databaseManager.savePosts(
-                            it.map { postItem -> postItem.toEntity() },
+                            it.mapIndexed { index, postItem ->
+                                if (index <= 19) {
+                                    postItem.toEntity()
+                                } else {
+                                    postItem.toEntity(true)
+                                }
+                            },
                         )
                         None
                     },
@@ -43,6 +52,19 @@ class PostRepository @Inject constructor(
             }
         } else {
             return Either.Right(None)
+        }
+    }
+
+    override fun deletePost(id: Long): Either<Failure, None> {
+        return try {
+            if (id == DatabaseManager.DELETE_ALL_POSTS) {
+                databaseManager.dropPosts()
+            } else {
+                databaseManager.deletePost(id)
+            }
+            Either.Right(None)
+        } catch (exception: Throwable) {
+            Either.Left(Failure.CacheError)
         }
     }
 

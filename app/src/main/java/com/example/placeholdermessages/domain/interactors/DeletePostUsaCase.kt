@@ -6,8 +6,8 @@ import com.example.placeholdermessages.core.Failure
 import com.example.placeholdermessages.domain.repositories.IPostRepository
 import javax.inject.Inject
 
-class LoadPostsUseCase @Inject constructor(private val postRepository: IPostRepository) : UseCase<None, Boolean>() {
-    override suspend fun run(params: Boolean): Either<Failure, None> {
-        return postRepository.loadPosts(params)
+class DeletePostUsaCase @Inject constructor(private val postsRepository: IPostRepository) : UseCase<None, Long>() {
+    override suspend fun run(params: Long): Either<Failure, None> {
+        return postsRepository.deletePost(params)
     }
 }

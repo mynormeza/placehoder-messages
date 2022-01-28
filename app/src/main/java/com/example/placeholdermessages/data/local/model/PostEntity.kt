@@ -10,11 +10,26 @@ data class PostEntity (
     @ColumnInfo(name = "post_id") @PrimaryKey val id: Long,
     @ColumnInfo(name = "post_title") val title: String,
     @ColumnInfo(name = "post_body") val body: String,
-    @ColumnInfo(name = "post_is_read") val isRead: Boolean = false,
+    @ColumnInfo(name = "post_is_read") val isRead: Boolean,
+    @ColumnInfo(name = "post_is_favorite") val isFavorite: Boolean,
 ) {
     fun toPost(): Post = Post(
         id,
         title,
-        body
+        body,
+        isRead,
+        isFavorite,
+    )
+
+    fun toPartial() = PartialPost(
+        id,
+        title,
+        body,
     )
 }
+
+data class PartialPost(
+    @ColumnInfo(name = "post_id") @PrimaryKey val id: Long,
+    @ColumnInfo(name = "post_title") val title: String,
+    @ColumnInfo(name = "post_body") val body: String,
+)

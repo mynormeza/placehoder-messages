@@ -11,12 +11,16 @@ data class PostItem(
     fun toPost(): Post = Post(
         id,
         title,
-        body
+        body,
+        isRead = true,
+        isFavorite = false,
     )
 
-    fun toEntity(): PostEntity = PostEntity(
+    fun toEntity(isRead: Boolean = false): PostEntity = PostEntity(
         id,
         title,
-        body
+        body,
+        isRead,
+        isFavorite = false,
     )
 }
