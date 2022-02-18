@@ -3,8 +3,6 @@ The display of data in the app is offline first with reload on demand, in a real
 
 The list of posts in each tab has live updates from the database, this way when an object is updated or deleted it will update the list automatically, the list has a `ListAdapter` with `DiffUtil` to efficiently perform the updates and to show smooth animation when deleting posts.
 
-I could not add Unit test, I did as much as I could with the time I had, but you can take a look a the project [here](https://gitlab.com/mynormeza92/git-hub-trending/-/tree/master) which is very similar, it does have unit tests
-
    [APK DOWNLOAD](https://drive.google.com/file/d/1ff26Pvbb70cRYKBHkTgGrRT9e3uUk3dp/view?usp=sharing)
    
 # App arch
